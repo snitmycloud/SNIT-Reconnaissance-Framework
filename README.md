@@ -56,3 +56,16 @@ SNIT-Reconnaissance-Framework/
 | 8 | CLI Interface and Documentation | Professional |
 
 ```
+
+## 3. Technologies
+
+- **Programming Language:** Python 3
+- **Operating System:** Kali Linux
+- **HTTP Library:** Requests
+- **DNS Enumeration:** dnspython
+- **WHOIS Lookup:** python-whois
+- **HTML Parsing:** BeautifulSoup
+- **Network Programming:** Python Socket
+- **Version Control:** Git
+- **Code Hosting:** GitHub
+
