@@ -1,19 +1,21 @@
+
 # SNIT-Reconnaissance-Framework
 
-Python-Based Information Gathering & Reconnaissance Framework
+### Python-Based Information Gathering & Reconnaissance Framework
 
-Features:
-- Passive reconnaissance
-- DNS information gathering
-- WHOIS lookup
-- Subdomain enumeration
-- HTTP header analysis
-- Technology detection
-- Port scanning
-- Banner grabbing
-- HTML and TXT report generation
-- 
-## Project Structure
+## 1. Features
+
+- Passive Reconnaissance
+- DNS Information Gathering
+- WHOIS Lookup
+- Subdomain Enumeration
+- HTTP Header Analysis
+- Technology Detection
+- Port Scanning
+- Banner Grabbing
+- HTML and TXT Report Generation
+
+## 2. Project Structure
 
 ```text
 SNIT-Reconnaissance-Framework/
@@ -33,16 +35,14 @@ SNIT-Reconnaissance-Framework/
 │   └── banner_grabber.py
 │
 ├── reports/
-│
 ├── logs/
 │
 └── utils/
     ├── logger.py
     └── report_generator.py
+```
 
-
-    
-## 2. Development Roadmap
+## 3. Development Roadmap
 
 | Phase | Development | Level |
 |:---:|---|:---:|
@@ -55,22 +55,19 @@ SNIT-Reconnaissance-Framework/
 | 7 | HTML Reporting | Advanced |
 | 8 | CLI Interface and Documentation | Professional |
 
-```
+## 4. Technologies
 
-## 3. Technologies
+1. **Programming Language:** Python 3
+2. **Operating System:** Kali Linux
+3. **HTTP Library:** Requests
+4. **DNS Enumeration:** dnspython
+5. **WHOIS Lookup:** python-whois
+6. **HTML Parsing:** BeautifulSoup
+7. **Network Programming:** Python Socket
+8. **Version Control:** Git
+9. **Code Hosting:** GitHub
 
-- **Programming Language:** Python 3
-- **Operating System:** Kali Linux
-- **HTTP Library:** Requests
-- **DNS Enumeration:** dnspython
-- **WHOIS Lookup:** python-whois
-- **HTML Parsing:** BeautifulSoup
-- **Network Programming:** Python Socket
-- **Version Control:** Git
-- **Code Hosting:** GitHub
-
-- 
-## 4. Installation
+## 5. Installation
 
 ### Step 1: Clone the Repository
 
@@ -108,4 +105,28 @@ pip install -r requirements.txt
 python3 main.py --help
 ```
 
+## 6. Usage
 
+Use the tool only against systems you own or have explicit permission to assess.
+
+Example:
+
+```bash
+python3 main.py example.com --subdomains --whois --dns
+```
+
+## 7. Disclaimer
+
+SNIT Reconnaissance Framework is developed for educational purposes, cybersecurity research, and authorized security testing.
+
+Users are responsible for ensuring they have proper authorization before conducting reconnaissance or scanning activities.
+
+The developers are not responsible for unauthorized or illegal use of this tool.
+
+## 8. Author
+
+**SNIT Training Institute**
+
+GitHub: https://github.com/snitmycloud
+
+Project: SNIT Reconnaissance Framework
