@@ -39,4 +39,20 @@ SNIT-Reconnaissance-Framework/
 └── utils/
     ├── logger.py
     └── report_generator.py
+
+
+    
+## 2. Development Roadmap
+
+| Phase | Development | Level |
+|:---:|---|:---:|
+| 1 | Python Project Structure | Beginner |
+| 2 | WHOIS and DNS Lookup | Beginner |
+| 3 | Subdomain Enumeration | Intermediate |
+| 4 | HTTP Headers and Technology Detection | Intermediate |
+| 5 | Port Scanning | Advanced |
+| 6 | Banner Grabbing | Advanced |
+| 7 | HTML Reporting | Advanced |
+| 8 | CLI Interface and Documentation | Professional |
+
 ```
