@@ -69,3 +69,43 @@ SNIT-Reconnaissance-Framework/
 - **Version Control:** Git
 - **Code Hosting:** GitHub
 
+- 
+## 4. Installation
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/snitmycloud/SNIT-Reconnaissance-Framework.git
+```
+
+### Step 2: Navigate to the Project Directory
+
+```bash
+cd SNIT-Reconnaissance-Framework
+```
+
+### Step 3: Create a Virtual Environment
+
+```bash
+python3 -m venv venv
+```
+
+### Step 4: Activate the Virtual Environment
+
+```bash
+source venv/bin/activate
+```
+
+### Step 5: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 6: Run the Tool
+
+```bash
+python3 main.py --help
+```
+
+
