@@ -12,9 +12,9 @@ Features:
 - Port scanning
 - Banner grabbing
 - HTML and TXT report generation
-  
+
 - 1. Proposed project structure
-We will build it with a professional folder structure:
+# We will build it with a professional folder structure:
 SNIT-Recon/
 │
 ├── main.py
