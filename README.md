@@ -12,10 +12,11 @@ Features:
 - Port scanning
 - Banner grabbing
 - HTML and TXT report generation
+- 
+## Project Structure
 
-- 1. Proposed project structure
-# We will build it with a professional folder structure:
-SNIT-Recon/
+```text
+SNIT-Reconnaissance-Framework/
 │
 ├── main.py
 ├── requirements.txt
@@ -38,3 +39,4 @@ SNIT-Recon/
 └── utils/
     ├── logger.py
     └── report_generator.py
+```
