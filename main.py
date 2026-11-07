@@ -6,6 +6,7 @@ from modules.dns_enum import enumerate_dns
 from modules.whois_lookup import lookup_whois
 from modules.subdomain_enum import enumerate_subdomains
 from modules.http_headers import analyze_http_headers
+from modules.tech_detect import detect_technologies
 
 
 def display_banner():
@@ -44,6 +45,9 @@ def main():
 
     print("\n[4] HTTP Header Analysis")
     analyze_http_headers(target)
+
+    print("\n[5] Technology Detection")
+    detect_technologies(target)
     
     print("\n[+] Reconnaissance completed.")
 
