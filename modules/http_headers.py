@@ -3,12 +3,12 @@ import requests
 
 
 SECURITY_HEADERS = {
-    "Strict-Transport-Security": "HSTS",
-    "Content-Security-Policy": "CSP",
-    "X-Frame-Options": "Clickjacking Protection",
-    "X-Content-Type-Options": "MIME Sniffing Protection",
-    "Referrer-Policy": "Referrer Information Control",
-    "Permissions-Policy": "Browser Feature Restrictions",
+    "Strict-Transport-Security": "Enforces HTTPS connections",
+    "Content-Security-Policy": "Controls permitted content sources",
+    "X-Frame-Options": "Helps prevent clickjacking",
+    "X-Content-Type-Options": "Prevents MIME sniffing",
+    "Referrer-Policy": "Controls referrer information",
+    "Permissions-Policy": "Controls browser feature access"
 }
 
 
@@ -17,6 +17,7 @@ def analyze_http_headers(domain):
     print("-" * 55)
 
     url = f"https://{domain}"
+    results = {}
 
     try:
         response = requests.get(
@@ -25,33 +26,39 @@ def analyze_http_headers(domain):
             allow_redirects=True
         )
 
+        results["Final URL"] = response.url
+        results["HTTP Status"] = response.status_code
+        results["Server"] = response.headers.get(
+            "Server", "Not disclosed"
+        )
+
         print(f"[+] Final URL: {response.url}")
         print(f"[+] HTTP Status: {response.status_code}")
-        print(f"[+] Server: {response.headers.get('Server', 'Not disclosed')}")
+        print(f"[+] Server: {results['Server']}")
+
+        results["Security Headers"] = {}
 
         print("\n[+] Security Header Analysis:")
-
-        results = []
 
         for header, description in SECURITY_HEADERS.items():
             value = response.headers.get(header)
 
-            if value:
-                status = "Present"
-                print(f"[+] {header}: {status}")
-            else:
-                status = "Missing"
-                print(f"[-] {header}: {status}")
+            status = "Present" if value else "Missing"
 
-            results.append({
-                "header": header,
+            results["Security Headers"][header] = {
                 "description": description,
                 "status": status,
-                "value": value
-            })
+                "value": value or "Not returned"
+            }
+
+            if value:
+                print(f"[+] {header}: Present")
+            else:
+                print(f"[-] {header}: Missing")
 
         return results
 
     except requests.RequestException as error:
         print(f"[-] HTTP request failed: {error}")
-        return []
+        results["Error"] = str(error)
+        return results
