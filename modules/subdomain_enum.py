@@ -7,13 +7,21 @@ def enumerate_subdomains(domain):
     print(f"\n[*] Subdomain Enumeration: {domain}")
     print("-" * 55)
 
-    wordlist = Path(__file__).resolve().parent.parent / "wordlists" / "subdomains.txt"
+    wordlist = (
+        Path(__file__).resolve().parent.parent
+        / "wordlists"
+        / "subdomains.txt"
+    )
+
+    results = []
 
     if not wordlist.exists():
         print("[-] Subdomain wordlist not found.")
-        return []
+        return results
 
-    discovered = []
+    resolver = dns.resolver.Resolver()
+    resolver.timeout = 3
+    resolver.lifetime = 5
 
     try:
         with open(wordlist, "r", encoding="utf-8") as file:
@@ -23,23 +31,26 @@ def enumerate_subdomains(domain):
                 if line.strip() and not line.startswith("#")
             ]
 
-        resolver = dns.resolver.Resolver()
-        resolver.timeout = 3
-        resolver.lifetime = 5
-
         for name in subdomains:
             hostname = f"{name}.{domain}"
 
             try:
                 answers = resolver.resolve(hostname, "A")
-                ips = [answer.to_text() for answer in answers]
+                ip_addresses = [
+                    answer.to_text() for answer in answers
+                ]
 
-                discovered.append({
+                entry = {
                     "subdomain": hostname,
-                    "ip_addresses": ips
-                })
+                    "ip_addresses": ip_addresses
+                }
 
-                print(f"[+] {hostname} -> {', '.join(ips)}")
+                results.append(entry)
+
+                print(
+                    f"[+] {hostname} -> "
+                    f"{', '.join(ip_addresses)}"
+                )
 
             except (
                 dns.resolver.NXDOMAIN,
@@ -48,13 +59,13 @@ def enumerate_subdomains(domain):
             ):
                 continue
 
-            except Exception as error:
-                print(f"[-] Error checking {hostname}: {error}")
+            except dns.exception.DNSException as error:
+                print(f"[-] DNS error for {hostname}: {error}")
 
     except OSError as error:
-        print(f"[-] Could not read wordlist: {error}")
-        return []
+        print(f"[-] Wordlist error: {error}")
+        return results
 
-    print(f"\n[+] Total discovered: {len(discovered)}")
+    print(f"\n[+] Total discovered: {len(results)}")
 
-    return discovered
+    return results
