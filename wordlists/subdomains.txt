@@ -1,0 +1,16 @@
+www
+mail
+ftp
+webmail
+portal
+admin
+dev
+test
+staging
+api
+app
+blog
+vpn
+remote
+support
+shop
