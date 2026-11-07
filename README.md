@@ -21,25 +21,27 @@
 SNIT-Reconnaissance-Framework/
 │
 ├── main.py
+├── config.py
 ├── requirements.txt
 ├── README.md
-├── config.py
 │
 ├── modules/
-│   ├── whois_lookup.py
 │   ├── dns_enum.py
+│   ├── whois_lookup.py
 │   ├── subdomain_enum.py
 │   ├── http_headers.py
 │   ├── tech_detect.py
 │   ├── port_scanner.py
-│   └── banner_grabber.py
+│   ├── banner_grabber.py
+│   └── ssl_analyzer.py
 │
-├── reports/
-├── logs/
+├── utils/
+│   └── report_generator.py
 │
-└── utils/
-    ├── logger.py
-    └── report_generator.py
+├── wordlists/
+│   └── subdomains.txt
+│
+└── reports/
 ```
 
 ## 3. Development Roadmap
