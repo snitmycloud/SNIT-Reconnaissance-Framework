@@ -38,7 +38,7 @@ def main():
     print("\n[2] WHOIS Lookup")
     lookup_whois(target)
     print("\n[3] Subdomain Enumeration")
-enumerate_subdomains(target)
+    enumerate_subdomains(target)
     print("\n[+] Reconnaissance completed.")
 
 
