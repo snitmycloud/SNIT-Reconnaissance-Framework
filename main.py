@@ -61,6 +61,9 @@ def main():
     print("\n[6] Report Generation")
     generate_reports(target, results)
 
+    print("\n[7] Report Generation")
+    generate_reports(target, results)
+
     print("\n[+] Reconnaissance completed.")
 
 
