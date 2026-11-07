@@ -5,6 +5,7 @@ from config import TOOL_NAME, VERSION
 from modules.dns_enum import enumerate_dns
 from modules.whois_lookup import lookup_whois
 from modules.subdomain_enum import enumerate_subdomains
+from modules.http_headers import analyze_http_headers
 
 
 def display_banner():
@@ -40,6 +41,9 @@ def main():
     
     print("\n[3] Subdomain Enumeration")
     enumerate_subdomains(target)
+
+    print("\n[4] HTTP Header Analysis")
+    analyze_http_headers(target)
     
     print("\n[+] Reconnaissance completed.")
 
