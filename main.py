@@ -8,6 +8,7 @@ from modules.whois_lookup import lookup_whois
 from modules.subdomain_enum import enumerate_subdomains
 from modules.http_headers import analyze_http_headers
 from modules.tech_detect import detect_technologies
+from modules.port_scanner import scan_ports
 
 from utils.report_generator import generate_reports
 
@@ -53,6 +54,9 @@ def main():
 
     print("\n[5] Technology Detection")
     results["Technology Detection"] = detect_technologies(target)
+
+    print("\n[6] TCP Port Scanning")
+    results["TCP Port Scanning"] = scan_ports(target)
 
     print("\n[6] Report Generation")
     generate_reports(target, results)
