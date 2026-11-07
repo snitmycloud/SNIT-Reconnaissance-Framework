@@ -3,7 +3,7 @@
 # Project Configuration
 
 TOOL_NAME = "SNIT Recon"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 # Request configuration
 REQUEST_TIMEOUT = 10
