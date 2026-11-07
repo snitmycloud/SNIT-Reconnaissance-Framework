@@ -3,17 +3,75 @@ import socket
 import ssl
 
 
+def parse_http_response(response):
+    """Extract useful information from an HTTP response."""
+
+    parsed = {
+        "http_status": None,
+        "server": None,
+        "platform": None,
+        "web_server": None,
+        "php_version": None,
+        "redirect": None,
+        "security_headers": {},
+        "other_headers": {}
+    }
+
+    if not response:
+        return parsed
+
+    lines = response.splitlines()
+
+    if lines:
+        parsed["http_status"] = lines[0].strip()
+
+    for line in lines[1:]:
+        if ":" not in line:
+            continue
+
+        key, value = line.split(":", 1)
+        key = key.strip().lower()
+        value = value.strip()
+
+        if key == "server":
+            parsed["server"] = value
+
+        elif key == "platform":
+            parsed["platform"] = value
+
+        elif key == "x-turbo-charged-by":
+            parsed["web_server"] = value
+
+        elif key == "x-powered-by":
+            parsed["php_version"] = value
+
+        elif key == "location":
+            parsed["redirect"] = value
+
+        elif key in (
+            "content-security-policy",
+            "strict-transport-security",
+            "x-frame-options",
+            "x-content-type-options",
+            "referrer-policy",
+            "permissions-policy"
+        ):
+            parsed["security_headers"][key] = value
+
+        else:
+            parsed["other_headers"][key] = value
+
+    return parsed
+
+
 def grab_banners(target, open_ports, timeout=2):
-    """
-    Collect basic service banners from ports already identified as open.
-    Use only on systems you own or are authorized to assess.
-    """
+    """Collect and parse basic service banners."""
 
     results = []
 
     try:
         target_ip = socket.gethostbyname(target)
-        print(f"\n[+] Banner Grabbing: {target}")
+        print(f"\n[+] Banner Analysis: {target}")
         print(f"[+] Target IP: {target_ip}")
 
     except socket.gaierror as error:
@@ -31,6 +89,7 @@ def grab_banners(target, open_ports, timeout=2):
         if not port:
             continue
 
+        connection = None
         banner = ""
         status = "No banner received"
 
@@ -62,16 +121,14 @@ def grab_banners(target, open_ports, timeout=2):
                 )
 
             connection.settimeout(timeout)
-            response = connection.recv(1024)
+            response = connection.recv(4096)
 
             if response:
                 banner = response.decode(
                     "utf-8", errors="replace"
-                ).strip()
+                )
 
                 status = "Banner received"
-
-            connection.close()
 
         except (socket.timeout, TimeoutError):
             status = "Connection timed out"
@@ -82,17 +139,41 @@ def grab_banners(target, open_ports, timeout=2):
         except OSError as error:
             status = f"Connection error: {error}"
 
-        results.append({
+        finally:
+            if connection:
+                connection.close()
+
+        parsed = parse_http_response(banner)
+
+        service_result = {
             "port": port,
             "service": service,
             "status": status,
-            "banner": banner
-        })
+            "details": parsed,
+            "raw_banner": banner
+        }
 
-        print(f"[+] Port {port}/{service}: {status}")
+        results.append(service_result)
 
-        if banner:
-            print(f"    {banner[:200]}")
+        print(f"\n[+] Port {port}/{service}: {status}")
+
+        if parsed["http_status"]:
+            print(f"    HTTP Status: {parsed['http_status']}")
+
+        if parsed["server"]:
+            print(f"    Server: {parsed['server']}")
+
+        if parsed["platform"]:
+            print(f"    Platform: {parsed['platform']}")
+
+        if parsed["web_server"]:
+            print(f"    Web Server: {parsed['web_server']}")
+
+        if parsed["php_version"]:
+            print(f"    PHP: {parsed['php_version']}")
+
+        if parsed["redirect"]:
+            print(f"    Redirect: {parsed['redirect']}")
 
     print(f"\n[+] Services checked: {len(results)}")
 
