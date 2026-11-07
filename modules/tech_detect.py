@@ -7,6 +7,12 @@ def detect_technologies(domain):
     print(f"\n[*] Technology Detection: {domain}")
     print("-" * 55)
 
+    results = {
+        "Website": None,
+        "HTTP Status": None,
+        "Detected Technologies": []
+    }
+
     url = f"https://{domain}"
 
     try:
@@ -19,9 +25,12 @@ def detect_technologies(domain):
         headers = response.headers
         html = response.text
 
+        results["Website"] = response.url
+        results["HTTP Status"] = response.status_code
+
         detected = set()
 
-        # Web server and CDN detection
+        # Web server and CDN
         server = headers.get("Server", "")
 
         if server:
@@ -40,7 +49,7 @@ def detect_technologies(domain):
         if "Drupal.settings" in html or "/sites/default/" in html:
             detected.add("CMS: Drupal")
 
-        # JavaScript framework detection
+        # JavaScript frameworks
         if re.search(r"__NEXT_DATA__|/_next/", html):
             detected.add("Framework: Next.js")
 
@@ -53,11 +62,13 @@ def detect_technologies(domain):
         if "data-v-" in html:
             detected.add("Framework: Vue.js")
 
-        # Programming language hints
+        # Server-side technology hints
         powered_by = headers.get("X-Powered-By")
 
         if powered_by:
             detected.add(f"Technology: {powered_by}")
+
+        results["Detected Technologies"] = sorted(detected)
 
         print(f"[+] Website: {response.url}")
         print(f"[+] HTTP Status: {response.status_code}")
@@ -68,10 +79,11 @@ def detect_technologies(domain):
             for technology in sorted(detected):
                 print(f"    {technology}")
         else:
-            print("\n[-] No technologies identified using current checks.")
+            print("\n[-] No technologies identified.")
 
-        return sorted(detected)
+        return results
 
     except requests.RequestException as error:
         print(f"[-] Technology detection failed: {error}")
-        return []
+        results["Error"] = str(error)
+        return results
