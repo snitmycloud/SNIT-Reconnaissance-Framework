@@ -10,6 +10,7 @@ from modules.http_headers import analyze_http_headers
 from modules.tech_detect import detect_technologies
 from modules.port_scanner import scan_ports
 from modules.banner_grabber import grab_banners
+from modules.ssl_analyzer import analyze_ssl
 
 from utils.report_generator import generate_reports
 
@@ -64,8 +65,11 @@ def main():
         target,
         results["TCP Port Scanning"]
     )
+        
+    print("\n[8] SSL/TLS Certificate Analysis")
+    results["SSL/TLS Certificate Analysis"] = analyze_ssl(target)
 
-    print("\n[8] Report Generation")
+    print("\n[9] Report Generation")
     generate_reports(target, results)
 
     print("\n[+] Reconnaissance completed.")
