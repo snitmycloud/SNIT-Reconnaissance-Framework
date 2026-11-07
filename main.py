@@ -9,6 +9,7 @@ from modules.subdomain_enum import enumerate_subdomains
 from modules.http_headers import analyze_http_headers
 from modules.tech_detect import detect_technologies
 from modules.port_scanner import scan_ports
+from modules.banner_grabber import grab_banners
 
 from utils.report_generator import generate_reports
 
@@ -58,10 +59,13 @@ def main():
     print("\n[6] TCP Port Scanning")
     results["TCP Port Scanning"] = scan_ports(target)
 
-    print("\n[6] Report Generation")
-    generate_reports(target, results)
+    print("\n[7] Service Detection & Banner Grabbing")
+    results["Service Detection & Banner Grabbing"] = grab_banners(
+        target,
+        results["TCP Port Scanning"]
+    )
 
-    print("\n[7] Report Generation")
+    print("\n[8] Report Generation")
     generate_reports(target, results)
 
     print("\n[+] Reconnaissance completed.")
