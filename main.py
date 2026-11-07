@@ -1,8 +1,9 @@
 
 import argparse
-import sys
 
 from config import TOOL_NAME, VERSION
+from modules.dns_enum import enumerate_dns
+from modules.whois_lookup import lookup_whois
 
 
 def display_banner():
@@ -12,16 +13,6 @@ def display_banner():
     print("=" * 55)
 
 
-def validate_target(target):
-    if not target or len(target) > 253:
-        return False
-
-    if any(char.isspace() for char in target):
-        return False
-
-    return True
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="SNIT Reconnaissance Framework"
@@ -29,31 +20,24 @@ def main():
 
     parser.add_argument(
         "target",
-        nargs="?",
         help="Target domain you are authorized to assess"
     )
 
-    parser.add_argument(
-        "--version",
-        action="version",
-        version=f"{TOOL_NAME} {VERSION}"
-    )
-
     args = parser.parse_args()
+    target = args.target.strip()
 
     display_banner()
 
-    if args.target is None:
-        parser.print_help()
-        return
+    print(f"[+] Target: {target}")
+    print("\n[*] Starting reconnaissance...")
 
-    if not validate_target(args.target):
-        print("[!] Invalid target format.")
-        sys.exit(1)
+    print("\n[1] DNS Enumeration")
+    enumerate_dns(target)
 
-    print(f"[+] Target: {args.target}")
-    print("[+] Framework initialized successfully.")
-    print("[!] Reconnaissance modules will be added next.")
+    print("\n[2] WHOIS Lookup")
+    lookup_whois(target)
+
+    print("\n[+] Reconnaissance completed.")
 
 
 if __name__ == "__main__":
